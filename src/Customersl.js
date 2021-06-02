@@ -426,8 +426,14 @@ export default function Customer() {
         />
       </Paper>
       <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        control={
+          <Switch
+            color="primary"
+            checked={dense}
+            onChange={handleChangeDense}
+          />
+        }
+        label="Compress"
       />
     </div>
   );

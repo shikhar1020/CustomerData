@@ -28,25 +28,25 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import api from "./api";
 import "./Customer.css";
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Donut", 452, 25.0, 51, 4.9),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Honeycomb", 408, 3.2, 87, 6.5),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Jelly Bean", 375, 0.0, 94, 0.0),
-  createData("KitKat", 518, 26.0, 65, 7.0),
-  createData("Lollipop", 392, 0.2, 98, 0.0),
-  createData("Marshmallow", 318, 0, 81, 2.0),
-  createData("Nougat", 360, 19.0, 9, 37.0),
-  createData("Oreo", 437, 18.0, 63, 4.0),
-];
+// const rows = [
+//   createData("Cupcake", 305, 3.7, 67, 4.3),
+//   createData("Donut", 452, 25.0, 51, 4.9),
+//   createData("Eclair", 262, 16.0, 24, 6.0),
+//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+//   createData("Gingerbread", 356, 16.0, 49, 3.9),
+//   createData("Honeycomb", 408, 3.2, 87, 6.5),
+//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+//   createData("Jelly Bean", 375, 0.0, 94, 0.0),
+//   createData("KitKat", 518, 26.0, 65, 7.0),
+//   createData("Lollipop", 392, 0.2, 98, 0.0),
+//   createData("Marshmallow", 318, 0, 81, 2.0),
+//   createData("Nougat", 360, 19.0, 9, 37.0),
+//   createData("Oreo", 437, 18.0, 63, 4.0),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -75,17 +75,13 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  // {
-  //   id: "name",
-  //   numeric: false,
-  //   disablePadding: true,
-  //   label: "Dessert (100g serving)",
-  // },
-  // { id: "calories", numeric: true, disablePadding: false, label: "Calories" },
-  // { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
-  // { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
-  // { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
-  { id: "avatar", numeric: false, disablePadding: false, label: "Avatar" },
+  {
+    id: "avatar",
+    numeric: false,
+    disablePadding: false,
+    label: "Avatar",
+    // minWidth: 30,
+  },
   {
     id: "firstname",
     numeric: false,
@@ -170,6 +166,7 @@ const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(1),
+    backgroundColor: "#C5EEF7",
   },
   highlight:
     theme.palette.type === "light"
@@ -223,7 +220,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Customer Data
+          <h3>Customer Data</h3>
         </Typography>
       )}
 
@@ -248,6 +245,12 @@ const EnhancedTableToolbar = (props) => {
       >
         <ToggleButton
           value="on"
+          style={{
+            color: "black",
+            fontSize: ".8rem",
+            fontFamily: "monospace",
+            fontWeight: "bold",
+          }}
           aria-label="left aligned"
           backgroundColor="blue"
           onClick={() => {
@@ -258,6 +261,12 @@ const EnhancedTableToolbar = (props) => {
         </ToggleButton>
         <ToggleButton
           value="off"
+          style={{
+            color: "black",
+            fontSize: ".8rem",
+            fontFamily: "monospace",
+            fontWeight: "bold",
+          }}
           aria-label="right aligned"
           onClick={() => {
             reversebid();
@@ -276,13 +285,32 @@ EnhancedTableToolbar.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100%",
-    // border: "2px solid black",
-    // margin: "4px",
+    width: "80%",
+    border: "4px solid #BEDAE0",
+    borderRadius: ".5rem",
+    textAlign: "center",
+    backgroundColor: "aquamarine",
+    // display: "flex",
+    // alignItems: "center",
+    // justifyContent: "center",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "2rem",
+    // top: "50%",
+    // marginBottom: "auto",
+    // marginTop: "auto",
+    // margin: " 0 auto",
+    // margin: 0,
+    // position: "absolute",
+    // top: "50%",
+    // left: "50%",
   },
   paper: {
     width: "100%",
     marginBottom: theme.spacing(2),
+    // display: "flex",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
   table: {
     minWidth: 750,
@@ -440,7 +468,11 @@ export default function Customer() {
                         if (headCell.id === "avatar") {
                           return (
                             <TableCell key={headCell.id} align="center">
-                              <Avatar alt={row.firstname} src={row.avatarUrl} />
+                              <Avatar
+                                style={{ marginLeft: "1rem" }}
+                                alt={row.firstname}
+                                src={row.avatarUrl}
+                              />
                             </TableCell>
                           );
                         } else if (headCell.id === "firstname") {
@@ -533,7 +565,7 @@ export default function Customer() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
+        label="Compress"
       />
     </div>
   );
