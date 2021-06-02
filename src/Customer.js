@@ -13,14 +13,16 @@ import TableSortLabel from "@material-ui/core/TableSortLabel";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
-import Checkbox from "@material-ui/core/Checkbox";
 import IconButton from "@material-ui/core/IconButton";
+import Checkbox from "@material-ui/core/Checkbox";
+import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
-
+import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
+import OfflinePinIcon from "@material-ui/icons/OfflinePin";
 import "./Customer.css";
 import axios from "axios";
 import api from "./api";
@@ -98,7 +100,7 @@ const headCells = [
   { id: "email", numeric: true, disablePadding: false, label: "Email" },
   { id: "phone", numeric: true, disablePadding: false, label: "Phone" },
   { id: "haspremium", numeric: true, disablePadding: false, label: "Premium" },
-  { id: "bid", numeric: true, disablePadding: false, label: "Bid" },
+  { id: "bids", numeric: true, disablePadding: false, label: "Bid" },
 ];
 
 function EnhancedTableHead(props) {
@@ -377,11 +379,10 @@ export default function Customer() {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      // onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -394,20 +395,45 @@ export default function Customer() {
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell> */}
-                      <TableCell
-                        component="th"
-                        id={labelId}
-                        scope="row"
-                        padding="none"
-                      >
-                        {row.avatarUrl}
-                      </TableCell>
-                      <TableCell align="right">{row.firstname}</TableCell>
-                      <TableCell align="right">{row.lastname}</TableCell>
-                      <TableCell align="right">{row.email}</TableCell>
-                      <TableCell align="right">{row.phone}</TableCell>
-                      <TableCell align="right">{row.hasPremium}</TableCell>
-                      <TableCell align="right">{row.bids.length}</TableCell>
+                      {headCells.map((headCell) => {
+                        let value = row[headCell.id];
+                        //-------------------column for avatar
+                        if (headCell.id === "avatar") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              <Avatar alt={row.firstname} src={row.avatarUrl} />
+                            </TableCell>
+                          );
+                        } else if (headCell.id == "haspremium") {
+                          if (row.hasPremium === true) {
+                            return (
+                              <TableCell key={headCell.id} align="center">
+                                <OfflinePinIcon style={{ color: "green" }} />
+                              </TableCell>
+                            );
+                          } else {
+                            return (
+                              <TableCell key={headCell.id} align="center">
+                                <RemoveCircleIcon style={{ color: "red" }} />
+                              </TableCell>
+                            );
+                          }
+                        } else if (headCell.id === "bids") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              {row.bids.length}
+                            </TableCell>
+                          );
+                        }
+
+                        return (
+                          <TableCell key={headCell.id} align="center">
+                            {headCell.format //&& typeof value === "number"
+                              ? headCell.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
                     </TableRow>
                   );
                 })}
