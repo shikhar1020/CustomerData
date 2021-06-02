@@ -84,22 +84,22 @@ const headCells = [
   // { id: "fat", numeric: true, disablePadding: false, label: "Fat (g)" },
   // { id: "carbs", numeric: true, disablePadding: false, label: "Carbs (g)" },
   // { id: "protein", numeric: true, disablePadding: false, label: "Protein (g)" },
-  { id: "avatar", numeric: true, disablePadding: false, label: "Avatar" },
+  { id: "avatar", numeric: false, disablePadding: false, label: "Avatar" },
   {
-    id: "lastName",
-    numeric: true,
+    id: "firstname",
+    numeric: false,
     disablePadding: false,
     label: "First Name",
   },
   {
-    id: "firstname",
-    numeric: true,
+    id: "lastname",
+    numeric: false,
     disablePadding: false,
     label: "Last Name",
   },
-  { id: "email", numeric: true, disablePadding: false, label: "Email" },
-  { id: "phone", numeric: true, disablePadding: false, label: "Phone" },
-  { id: "haspremium", numeric: true, disablePadding: false, label: "Premium" },
+  { id: "email", numeric: false, disablePadding: false, label: "Email" },
+  { id: "phone", numeric: false, disablePadding: false, label: "Phone" },
+  { id: "haspremium", numeric: false, disablePadding: false, label: "Premium" },
   { id: "bids", numeric: true, disablePadding: false, label: "Bid" },
 ];
 
@@ -404,6 +404,30 @@ export default function Customer() {
                               <Avatar alt={row.firstname} src={row.avatarUrl} />
                             </TableCell>
                           );
+                        } else if (headCell.id === "firstname") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              {row.firstname}
+                            </TableCell>
+                          );
+                        } else if (headCell.id === "lastname") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              {row.lastname}
+                            </TableCell>
+                          );
+                        } else if (headCell.id === "email") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              {row.email}
+                            </TableCell>
+                          );
+                        } else if (headCell.id === "phone") {
+                          return (
+                            <TableCell key={headCell.id} align="center">
+                              {row.phone}
+                            </TableCell>
+                          );
                         } else if (headCell.id == "haspremium") {
                           if (row.hasPremium === true) {
                             return (
@@ -419,20 +443,33 @@ export default function Customer() {
                             );
                           }
                         } else if (headCell.id === "bids") {
+                          const maxBid = Math.max.apply(
+                            Math,
+                            row.bids.map(function (o) {
+                              return o.amount;
+                            })
+                          );
+                          const minBid = Math.min.apply(
+                            Math,
+                            row.bids.map(function (o) {
+                              return o.amount;
+                            })
+                          );
                           return (
                             <TableCell key={headCell.id} align="center">
-                              {row.bids.length}
+                              {/* {maxBid} */}
+                              {minBid}
+                              {/* {row.bids.length} */}
                             </TableCell>
                           );
                         }
-
-                        return (
-                          <TableCell key={headCell.id} align="center">
-                            {headCell.format //&& typeof value === "number"
-                              ? headCell.format(value)
-                              : value}
-                          </TableCell>
-                        );
+                        // return (
+                        //   <TableCell key={headCell.id} align="center">
+                        //     {headCell.format //&& typeof value === "number"
+                        //       ? headCell.format(value)
+                        //       : value}
+                        //   </TableCell>
+                        // );
                       })}
                     </TableRow>
                   );
