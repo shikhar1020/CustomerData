@@ -1,0 +1,69 @@
+//    "airbnb", : Blocked by this : https://github.com/facebook/create-react-app/issues/9887
+/*
+  Steps to install prettier:
+    1. npm i prettier
+    2. npm i eslint-config-prettier
+    3. npm i eslint-plugin-prettier
+*/
+{
+    "extends": [
+        "react-app",
+        "react-app/jest",
+        "prettier",
+        //   "prettier/react",
+        "plugin:testing-library/react",
+        "plugin:testing-library/recommended",
+        "plugin:prettier/recommended"
+    ],
+    "plugins": [
+        "prettier",
+        "react-hooks"
+    ],
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "rules": {
+        "camelcase": 0,
+        "no-console": "warn",
+        "jsx-a11y/href-no-hash": [
+            0
+        ],
+        "react/jsx-filename-extension": [
+            "error",
+            {
+                "extensions": [
+                    ".js",
+                    ".jsx"
+                ]
+            }
+        ],
+        "prettier/prettier": [
+            "error",
+            {
+                "singleQuote": false,
+                "jsxSingleQuote": false,
+                "arrowParens": "always",
+                "semi": true,
+                //below line only for windows users facing CLRF and eslint/prettier error
+                // non windows users feel free to delete it
+                "endOfLine": "auto"
+            }
+        ]
+        // "react/prop-types": [0]
+    },
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "moduleDirectory": [
+                    "node_modules",
+                    "src/"
+                ]
+            }
+        }
+    }
+}
