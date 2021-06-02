@@ -429,7 +429,7 @@ export default function Customer() {
           <Table
             className={classes.table}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size={dense ? "medium" : "small"}
             aria-label="enhanced table"
           >
             <EnhancedTableHead
@@ -566,7 +566,7 @@ export default function Customer() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Compress"
+        // label="Expand"
       />
     </div>
   );
