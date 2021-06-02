@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import api from "./api";
 import "./Biddata.css";
 
 function Biddata() {
   const [dataRows, setDataRows] = useState([]);
+
+  const customerId = useParams();
+  //   console.log(useParams);
+  const custId = Object.values(customerId).toString();
+  //   console.log("Id is :", typeof custId);
+
   useEffect(() => {
     const getData = async () => {
       // console.log("Testing");
       try {
         api
-          .getCustomerData()
+          .getBIdData(custId)
           .then((res) => {
             // console.log("Res is :", res.data);
-            console.log("Customer Bid Data", res.data[0].bids);
+            console.log("Customer Bid Data", res.data.bids);
             let customerData = res.data;
             setDataRows(customerData);
           })
@@ -31,7 +37,7 @@ function Biddata() {
     <>
       {/* <h1>This page will show bid data.</h1> */}
       <Link to="/">
-        <button className="goBack">◀ Go Back</button>
+        <button className="goBack">◀ Home</button>
       </Link>
     </>
   );

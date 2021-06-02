@@ -7,4 +7,10 @@ export default {
       method: "GET",
       url: `https://intense-tor-76305.herokuapp.com/merchants`,
     }),
+
+  getBIdData: (id) =>
+    axios({
+      method: "GET",
+      url: `https://intense-tor-76305.herokuapp.com/merchants/${id}`,
+    }),
 };
