@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -98,6 +99,7 @@ const headCells = [
   { id: "phone", numeric: false, disablePadding: false, label: "Phone" },
   { id: "haspremium", numeric: false, disablePadding: false, label: "Premium" },
   { id: "bids", numeric: true, disablePadding: false, label: "Bid" },
+  { id: "button", numeric: false, disablePadding: false, label: "BID Detail" },
 ];
 
 function EnhancedTableHead(props) {
@@ -463,6 +465,7 @@ export default function Customer() {
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell> */}
+                      {/* <Link to={`/bid/${row.id}`}> */}
                       {headCells.map((headCell) => {
                         let value = row[headCell.id];
                         //-------------------column for avatar
@@ -478,7 +481,11 @@ export default function Customer() {
                           );
                         } else if (headCell.id === "firstname") {
                           return (
-                            <TableCell key={headCell.id} align="center">
+                            <TableCell
+                              key={headCell.id}
+                              align="center"
+                              // style={{ textDecoration: "none" }}
+                            >
                               {row.firstname}
                             </TableCell>
                           );
@@ -534,6 +541,14 @@ export default function Customer() {
                               {/* {row.bids.length} */}
                             </TableCell>
                           );
+                        } else if (headCell.id === "button") {
+                          return (
+                            <TableCell key={headCell.id}>
+                              <Link to={`/bid/${row.id}`}>
+                                <button className="linkButton">View</button>
+                              </Link>
+                            </TableCell>
+                          );
                         }
                         // return (
                         //   <TableCell key={headCell.id} align="center">
@@ -543,6 +558,7 @@ export default function Customer() {
                         //   </TableCell>
                         // );
                       })}
+                      {/* </Link> */}
                     </TableRow>
                   );
                 })}
@@ -566,7 +582,7 @@ export default function Customer() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        // label="Expand"
+        label="Expand"
       />
     </div>
   );

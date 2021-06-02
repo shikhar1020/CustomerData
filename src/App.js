@@ -1,14 +1,22 @@
 import React from "react";
+import { Route, Redirect, Switch, BrowserRouter } from "react-router-dom";
 import Customer from "./Customer";
+import BidData from "./BidData";
 import "./App.css";
 
 function App() {
   return (
-    <div>
-      {/* <h1>Customer Data</h1> */}
-      <Customer />
-      {/* <Table /> */}
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/">
+          <Customer />
+        </Route>
+        <Route exact path="/bid/:id">
+          <BidData />
+        </Route>
+      </Switch>
+    </BrowserRouter>
+    // <Customer />
   );
 }
 

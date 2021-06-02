@@ -2,3 +2,17 @@
     /* background: #DEDEDE; */
     background-image: url("https://wallpaperaccess.com/full/1251666.jpg");
   }
+
+  .linkButton {
+    background-color: #008CBA; 
+    border: none;
+    color: white;
+    padding: .8rem 1.5rem;
+    border-radius: .6rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: .8rem;
+    cursor: pointer;
+  }
+
