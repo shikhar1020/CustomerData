@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Redirect, Switch, BrowserRouter } from "react-router-dom";
 import Customer from "./Customer";
-import BidData from "./BidData";
+import Biddata from "./BidData";
 import "./App.css";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
           <Customer />
         </Route>
         <Route exact path="/bid/:id">
-          <BidData />
+          <Biddata />
         </Route>
       </Switch>
     </BrowserRouter>

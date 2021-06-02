@@ -1,0 +1,40 @@
+
+.goBack {
+    background-color: #008CBA; 
+    border: none;
+    color: white;
+    padding: .8rem 1.5rem;
+    border-radius: .6rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 2rem;
+    cursor: pointer;
+    margin-left: 3rem;
+    margin-top: 3rem;
+}
+
+.goBack span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+  }
+  
+  .goBack span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+  }
+  
+  .goBack:hover span {
+    padding-right: 25px;
+  }
+  
+  .goBack:hover span:after {
+    opacity: 1;
+    right: 0;
+  }

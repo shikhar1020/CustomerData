@@ -359,14 +359,6 @@ export default function Customer() {
         console.log(err);
       }
     };
-    // console.log("jooooooo");
-    // if (fliterAlignment === "on") {
-    //   console.log("reviewTRUE");
-    //   sendingRequestForPin(true);
-    // } else {
-    //   console.log("reviewFalse");
-    //   sendingRequestForPin(false);
-    // }
     getData();
   }, []);
 
