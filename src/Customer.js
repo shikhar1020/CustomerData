@@ -23,9 +23,10 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import OfflinePinIcon from "@material-ui/icons/OfflinePin";
-import "./Customer.css";
-import axios from "axios";
+import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import api from "./api";
+import "./Customer.css";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -131,7 +132,8 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align="center"
+            // align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -187,6 +189,17 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
+  const [showMaxBid, setShowMaxBid] = useState(true);
+
+  const reversebid = () => {
+    if (showMaxBid == true) {
+      setShowMaxBid(false);
+      console.log("Show Maximum Bid");
+    } else {
+      setShowMaxBid(true);
+      console.log("Show Minimum Bid");
+    }
+  };
 
   return (
     <Toolbar
@@ -214,7 +227,7 @@ const EnhancedTableToolbar = (props) => {
         </Typography>
       )}
 
-      {numSelected > 0 ? (
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton aria-label="delete">
             <DeleteIcon />
@@ -226,7 +239,33 @@ const EnhancedTableToolbar = (props) => {
             <FilterListIcon />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
+      <ToggleButtonGroup
+        value={showMaxBid}
+        exclusive
+        size="small"
+        aria-label="text alignment"
+      >
+        <ToggleButton
+          value="on"
+          aria-label="left aligned"
+          backgroundColor="blue"
+          onClick={() => {
+            reversebid();
+          }}
+        >
+          Minimum Bid
+        </ToggleButton>
+        <ToggleButton
+          value="off"
+          aria-label="right aligned"
+          onClick={() => {
+            reversebid();
+          }}
+        >
+          Maximum Bid
+        </ToggleButton>
+      </ToggleButtonGroup>
     </Toolbar>
   );
 };
