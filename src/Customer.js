@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { lighten, makeStyles } from "@material-ui/core/styles";
@@ -22,6 +22,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 
 import "./Customer.css";
+import axios from "axios";
+import api from "./api";
 
 function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
@@ -301,6 +303,34 @@ export default function Customer() {
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  useEffect(() => {
+    const getData = async () => {
+      // console.log("Testing");
+      try {
+        api
+          .getCustomerData()
+          .then((res) => {
+            console.log("Customer Data", res.data);
+            // setRows(res.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    // console.log("jooooooo");
+    // if (fliterAlignment === "on") {
+    //   console.log("reviewTRUE");
+    //   sendingRequestForPin(true);
+    // } else {
+    //   console.log("reviewFalse");
+    //   sendingRequestForPin(false);
+    // }
+    getData();
+  }, []);
 
   return (
     <div className={classes.root}>

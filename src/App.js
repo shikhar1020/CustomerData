@@ -7,6 +7,7 @@ function App() {
     <div>
       {/* <h1>Customer Data</h1> */}
       <Customer />
+      {/* <Table /> */}
     </div>
   );
 }
