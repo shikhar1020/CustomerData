@@ -132,6 +132,7 @@ function EnhancedTableHead(props) {
             // align={headCell.numeric ? "right" : "left"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
+            style={{ fontWeight: "bold" }}
           >
             <TableSortLabel
               active={orderBy === headCell.id}
