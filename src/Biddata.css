@@ -3,15 +3,16 @@
     background-color: #008CBA; 
     border: none;
     color: white;
-    padding: .8rem 1.5rem;
+    padding: .6rem 1rem;
     border-radius: .6rem;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 2rem;
+    font-size: .8rem;
     cursor: pointer;
-    margin-left: 3rem;
-    margin-top: 3rem;
+    width: 4rem;
+    /* margin-left: 3rem;
+    margin-top: 3rem; */
 }
 
 .goBack span {
