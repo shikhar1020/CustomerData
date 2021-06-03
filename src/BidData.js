@@ -138,7 +138,6 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
-  const [showMaxBid, setShowMaxBid] = useState(true);
 
   return (
     <Toolbar
@@ -182,7 +181,7 @@ const useStyles = makeStyles((theme) => ({
     border: "4px solid #BEDAE0",
     borderRadius: ".5rem",
     textAlign: "center",
-    backgroundColor: "aquamarine",
+    backgroundColor: "#C5EEF7", //"aquamarine",
     // display: "flex",
     // alignItems: "center",
     // justifyContent: "center",
@@ -236,37 +235,16 @@ export default function BidData() {
   const custId = Object.values(customerId).toString();
   console.log("Id is :", custId);
 
-  //   useEffect(() => {
-  //     const getData = async () => {
-  //       // console.log("Testing");
-  //       try {
-  //         api
-  //           .getCustomerData()
-  //           .then((res) => {
-  //             console.log("Customer Data", res.data);
-  //             let customerData = res.data;
-  //             setDataRows(customerData);
-  //           })
-  //           .catch((error) => {
-  //             console.log(error);
-  //           });
-  //       } catch (err) {
-  //         console.log(err);
-  //       }
-  //     };
-  //     getData();
-  //   }, []);
-
   useEffect(() => {
     const getData = async () => {
       // console.log("Testing");
       try {
         api
-          .getBIdData()
+          .getBIdData(custId)
           .then((res) => {
             // console.log("Res is :", res.data);
             console.log("Customer Bid Data", res.data.bids);
-            let customerData = res.data;
+            let customerData = res.data.bids;
             setDataRows(customerData);
           })
           .catch((error) => {

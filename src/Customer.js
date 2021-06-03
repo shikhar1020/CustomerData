@@ -292,7 +292,7 @@ const useStyles = makeStyles((theme) => ({
     border: "4px solid #BEDAE0",
     borderRadius: ".5rem",
     textAlign: "center",
-    backgroundColor: "aquamarine",
+    backgroundColor: "#C5EEF7", //"aquamarine",
     // display: "flex",
     // alignItems: "center",
     // justifyContent: "center",
