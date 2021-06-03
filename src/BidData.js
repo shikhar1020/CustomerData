@@ -229,6 +229,7 @@ export default function BidData() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dataRows, setDataRows] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const customerId = useParams();
   //   console.log(useParams);
@@ -250,6 +251,7 @@ export default function BidData() {
           .catch((error) => {
             console.log(error);
           });
+        setLoading(true);
       } catch (err) {
         console.log(err);
       }
@@ -346,13 +348,6 @@ export default function BidData() {
                       key={row.id}
                       selected={isItemSelected}
                     >
-                      {/* <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={isItemSelected}
-                          inputProps={{ "aria-labelledby": labelId }}
-                        />
-                      </TableCell> */}
-                      {/* <Link to={`/bid/${row.id}`}> */}
                       {headCells.map((headCell) => {
                         let value = row[headCell.id];
                         //-------------------column for avatar

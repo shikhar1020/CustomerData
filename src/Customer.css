@@ -16,3 +16,7 @@
     cursor: pointer;
   }
 
+  .toggleButton{
+    border: 1px solid lightblue;
+  }
+

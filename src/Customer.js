@@ -189,15 +189,26 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
-  const [showMaxBid, setShowMaxBid] = useState(true);
+  const [showMaxBid, setShowMaxBid] = useState(props);
 
-  const reversebid = () => {
-    if (showMaxBid == true) {
+  useEffect(() => {
+    setShowMaxBid(props);
+    console.log("Bid Changed");
+  }, []);
+
+  console.log("Current Value of Bid is", showMaxBid);
+
+  const showMinbid = () => {
+    if (showMaxBid === true) {
       setShowMaxBid(false);
-      console.log("Show Maximum Bid");
-    } else {
-      setShowMaxBid(true);
       console.log("Show Minimum Bid");
+    }
+  };
+
+  const showMaxbid = () => {
+    if (showMaxBid === false) {
+      setShowMaxBid(true);
+      console.log("Show Maximum Bid");
     }
   };
 
@@ -226,21 +237,7 @@ const EnhancedTableToolbar = (props) => {
           <h3>Customer Data</h3>
         </Typography>
       )}
-
-      {/* {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )} */}
-      <ToggleButtonGroup
+      {/* <ToggleButtonGroup
         value={showMaxBid}
         exclusive
         size="small"
@@ -257,7 +254,7 @@ const EnhancedTableToolbar = (props) => {
           aria-label="left aligned"
           backgroundColor="blue"
           onClick={() => {
-            reversebid();
+            showMinbid();
           }}
         >
           Minimum Bid
@@ -272,12 +269,12 @@ const EnhancedTableToolbar = (props) => {
           }}
           aria-label="right aligned"
           onClick={() => {
-            reversebid();
+            showMaxbid();
           }}
         >
           Maximum Bid
         </ToggleButton>
-      </ToggleButtonGroup>
+      </ToggleButtonGroup> */}
     </Toolbar>
   );
 };
@@ -340,6 +337,10 @@ export default function Customer() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dataRows, setDataRows] = useState([]);
+
+  // const { showMaxBid } = props;
+
+  // console.log("Bid", showMaxBid);
 
   useEffect(() => {
     const getData = async () => {
@@ -415,10 +416,77 @@ export default function Customer() {
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, dataRows.length - page * rowsPerPage);
 
+  // const showMaxBid = true;
+
+  const [showMaxBid, setShowMaxBid] = useState(true);
+
+  // useEffect(() => {
+  //   setShowMaxBid(props);
+  //   console.log("Bid Changed");
+  // }, []);
+
+  console.log("Current Value of Bid is", showMaxBid);
+
+  const showMinbid = () => {
+    if (showMaxBid === true) {
+      setShowMaxBid(false);
+      console.log("Show Minimum Bid");
+    }
+  };
+
+  const showMaxbid = () => {
+    if (showMaxBid === false) {
+      setShowMaxBid(true);
+      console.log("Show Maximum Bid");
+    }
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar
+          numSelected={selected.length}
+          // showMaxBid={showMaxBid}
+        />
+        <div className="toggleButton">
+          <ToggleButtonGroup
+            value={showMaxBid}
+            exclusive
+            size="small"
+            aria-label="text alignment"
+          >
+            <ToggleButton
+              value="on"
+              style={{
+                color: "black",
+                fontSize: ".8rem",
+                fontFamily: "monospace",
+                fontWeight: "bold",
+              }}
+              aria-label="left aligned"
+              backgroundColor="blue"
+              onClick={() => {
+                showMinbid();
+              }}
+            >
+              Minimum Bid
+            </ToggleButton>
+            <ToggleButton
+              value="off"
+              style={{
+                color: "black",
+                fontSize: ".8rem",
+                fontFamily: "monospace",
+                fontWeight: "bold",
+              }}
+              aria-label="right aligned"
+              onClick={() => {
+                showMaxbid();
+              }}
+            >
+              Maximum Bid
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
         <TableContainer>
           <Table
             className={classes.table}
@@ -528,8 +596,9 @@ export default function Customer() {
                           );
                           return (
                             <TableCell key={headCell.id} align="center">
+                              {showMaxBid ? maxBid : minBid}
                               {/* {maxBid} */}
-                              {minBid}
+                              {/* {minBid} */}
                               {/* {row.bids.length} */}
                             </TableCell>
                           );
