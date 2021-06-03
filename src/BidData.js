@@ -24,6 +24,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import OfflinePinIcon from "@material-ui/icons/OfflinePin";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Skeleton from "@material-ui/lab/Skeleton";
 import api from "./api";
 import "./Biddata.css";
 
@@ -218,6 +220,13 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  loader: {
+    width: 1062,
+    // textAlign: "center",
+    // border: "2px solid black",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 }));
 
 export default function BidData() {
@@ -251,7 +260,7 @@ export default function BidData() {
           .catch((error) => {
             console.log(error);
           });
-        setLoading(true);
+        // setLoading(true);
       } catch (err) {
         console.log(err);
       }
@@ -323,67 +332,89 @@ export default function BidData() {
             size={dense ? "medium" : "small"}
             aria-label="enhanced table"
           >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={dataRows.length}
-            />
-            <TableBody>
-              {stableSort(dataRows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      // onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      {headCells.map((headCell) => {
-                        let value = row[headCell.id];
-                        //-------------------column for avatar
-                        if (headCell.id === "amount") {
-                          return (
-                            <TableCell
-                              key={headCell.id}
-                              align="center"
-                              // style={{ textDecoration: "none" }}
-                            >
-                              {row.amount}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "carTitle") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {row.carTitle}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "created") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {row.created}
-                            </TableCell>
-                          );
-                        }
-                      })}
+            {loading ? (
+              <>
+                {/* <LinearProgress />
+                <LinearProgress color="secondary" /> */}
+                <div className={classes.loader}>
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                </div>
+              </>
+            ) : (
+              <>
+                <EnhancedTableHead
+                  classes={classes}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={dataRows.length}
+                />
+                <TableBody>
+                  {stableSort(dataRows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.name);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <TableRow
+                          hover
+                          // onClick={(event) => handleClick(event, row.name)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          selected={isItemSelected}
+                        >
+                          {headCells.map((headCell) => {
+                            let value = row[headCell.id];
+                            //-------------------column for avatar
+                            if (headCell.id === "amount") {
+                              return (
+                                <TableCell
+                                  key={headCell.id}
+                                  align="center"
+                                  // style={{ textDecoration: "none" }}
+                                >
+                                  {row.amount}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "carTitle") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {row.carTitle}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "created") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {row.created}
+                                </TableCell>
+                              );
+                            }
+                          })}
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                  )}
+                </TableBody>
+              </>
+            )}
           </Table>
         </TableContainer>
         <TablePagination

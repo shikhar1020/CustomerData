@@ -26,6 +26,8 @@ import RemoveCircleIcon from "@material-ui/icons/RemoveCircle";
 import OfflinePinIcon from "@material-ui/icons/OfflinePin";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Skeleton from "@material-ui/lab/Skeleton";
 import api from "./api";
 import "./Customer.css";
 
@@ -326,6 +328,13 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1,
   },
+  loader: {
+    width: 1062,
+    // textAlign: "center",
+    // border: "2px solid black",
+    marginLeft: "auto",
+    marginRight: "auto",
+  },
 }));
 
 export default function Customer() {
@@ -337,6 +346,7 @@ export default function Customer() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [dataRows, setDataRows] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // const { showMaxBid } = props;
 
@@ -352,6 +362,7 @@ export default function Customer() {
             console.log("Customer Data", res.data);
             let customerData = res.data;
             setDataRows(customerData);
+            // setLoading(true);
           })
           .catch((error) => {
             console.log(error);
@@ -494,141 +505,171 @@ export default function Customer() {
             size={dense ? "medium" : "small"}
             aria-label="enhanced table"
           >
-            <EnhancedTableHead
-              classes={classes}
-              numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={dataRows.length}
-            />
-            <TableBody>
-              {stableSort(dataRows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
-                  const labelId = `enhanced-table-checkbox-${index}`;
-                  return (
-                    <TableRow
-                      hover
-                      // onClick={(event) => handleClick(event, row.name)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      key={row.id}
-                      selected={isItemSelected}
-                    >
-                      {/* <TableCell padding="checkbox">
+            {loading ? (
+              <>
+                {/* <LinearProgress />
+                <LinearProgress color="secondary" /> */}
+                <div className={classes.loader}>
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                  <Skeleton animation="wave" />
+                </div>
+              </>
+            ) : (
+              <>
+                <EnhancedTableHead
+                  classes={classes}
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={dataRows.length}
+                />
+                <TableBody>
+                  {stableSort(dataRows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      const isItemSelected = isSelected(row.name);
+                      const labelId = `enhanced-table-checkbox-${index}`;
+                      return (
+                        <TableRow
+                          hover
+                          // onClick={(event) => handleClick(event, row.name)}
+                          role="checkbox"
+                          aria-checked={isItemSelected}
+                          tabIndex={-1}
+                          key={row.id}
+                          selected={isItemSelected}
+                        >
+                          {/* <TableCell padding="checkbox">
                         <Checkbox
                           checked={isItemSelected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
                       </TableCell> */}
-                      {/* <Link to={`/bid/${row.id}`}> */}
-                      {headCells.map((headCell) => {
-                        let value = row[headCell.id];
-                        //-------------------column for avatar
-                        if (headCell.id === "avatar") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              <Avatar
-                                style={{ marginLeft: "1rem" }}
-                                alt={row.firstname}
-                                src={row.avatarUrl}
-                              />
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "firstname") {
-                          return (
-                            <TableCell
-                              key={headCell.id}
-                              align="center"
-                              // style={{ textDecoration: "none" }}
-                            >
-                              {row.firstname}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "lastname") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {row.lastname}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "email") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {row.email}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "phone") {
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {row.phone}
-                            </TableCell>
-                          );
-                        } else if (headCell.id == "haspremium") {
-                          if (row.hasPremium === true) {
-                            return (
-                              <TableCell key={headCell.id} align="center">
-                                <OfflinePinIcon style={{ color: "green" }} />
-                              </TableCell>
-                            );
-                          } else {
-                            return (
-                              <TableCell key={headCell.id} align="center">
-                                <RemoveCircleIcon style={{ color: "red" }} />
-                              </TableCell>
-                            );
-                          }
-                        } else if (headCell.id === "bids") {
-                          const maxBid = Math.max.apply(
-                            Math,
-                            row.bids.map(function (o) {
-                              return o.amount;
-                            })
-                          );
-                          const minBid = Math.min.apply(
-                            Math,
-                            row.bids.map(function (o) {
-                              return o.amount;
-                            })
-                          );
-                          return (
-                            <TableCell key={headCell.id} align="center">
-                              {showMaxBid ? maxBid : minBid}
-                              {/* {maxBid} */}
-                              {/* {minBid} */}
-                              {/* {row.bids.length} */}
-                            </TableCell>
-                          );
-                        } else if (headCell.id === "button") {
-                          return (
-                            <TableCell key={headCell.id}>
-                              <Link to={`/bid/${row.id}`}>
-                                <button className="linkButton">View</button>
-                              </Link>
-                            </TableCell>
-                          );
-                        }
-                        // return (
-                        //   <TableCell key={headCell.id} align="center">
-                        //     {headCell.format //&& typeof value === "number"
-                        //       ? headCell.format(value)
-                        //       : value}
-                        //   </TableCell>
-                        // );
-                      })}
-                      {/* </Link> */}
+                          {/* <Link to={`/bid/${row.id}`}> */}
+                          {headCells.map((headCell) => {
+                            let value = row[headCell.id];
+                            //-------------------column for avatar
+                            if (headCell.id === "avatar") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  <Avatar
+                                    style={{ marginLeft: "1rem" }}
+                                    alt={row.firstname}
+                                    src={row.avatarUrl}
+                                  />
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "firstname") {
+                              return (
+                                <TableCell
+                                  key={headCell.id}
+                                  align="center"
+                                  // style={{ textDecoration: "none" }}
+                                >
+                                  {row.firstname}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "lastname") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {row.lastname}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "email") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {row.email}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "phone") {
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {row.phone}
+                                </TableCell>
+                              );
+                            } else if (headCell.id == "haspremium") {
+                              if (row.hasPremium === true) {
+                                return (
+                                  <TableCell key={headCell.id} align="center">
+                                    <OfflinePinIcon
+                                      style={{ color: "green" }}
+                                    />
+                                  </TableCell>
+                                );
+                              } else {
+                                return (
+                                  <TableCell key={headCell.id} align="center">
+                                    <RemoveCircleIcon
+                                      style={{ color: "red" }}
+                                    />
+                                  </TableCell>
+                                );
+                              }
+                            } else if (headCell.id === "bids") {
+                              const maxBid = Math.max.apply(
+                                Math,
+                                row.bids.map(function (o) {
+                                  return o.amount;
+                                })
+                              );
+                              const minBid = Math.min.apply(
+                                Math,
+                                row.bids.map(function (o) {
+                                  return o.amount;
+                                })
+                              );
+                              return (
+                                <TableCell key={headCell.id} align="center">
+                                  {showMaxBid ? maxBid : minBid}
+                                  {/* {maxBid} */}
+                                  {/* {minBid} */}
+                                  {/* {row.bids.length} */}
+                                </TableCell>
+                              );
+                            } else if (headCell.id === "button") {
+                              return (
+                                <TableCell key={headCell.id}>
+                                  <Link to={`/bid/${row.id}`}>
+                                    <button className="linkButton">View</button>
+                                  </Link>
+                                </TableCell>
+                              );
+                            }
+                            // return (
+                            //   <TableCell key={headCell.id} align="center">
+                            //     {headCell.format //&& typeof value === "number"
+                            //       ? headCell.format(value)
+                            //       : value}
+                            //   </TableCell>
+                            // );
+                          })}
+                          {/* </Link> */}
+                        </TableRow>
+                      );
+                    })}
+                  {emptyRows > 0 && (
+                    <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                      <TableCell colSpan={6} />
                     </TableRow>
-                  );
-                })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
+                  )}
+                </TableBody>
+              </>
+            )}
           </Table>
         </TableContainer>
         <TablePagination
