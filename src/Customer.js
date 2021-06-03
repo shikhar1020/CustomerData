@@ -367,6 +367,7 @@ export default function Customer() {
           .catch((error) => {
             console.log(error);
           });
+        // setLoading(true);
       } catch (err) {
         console.log(err);
       }

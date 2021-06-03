@@ -249,6 +249,7 @@ export default function BidData() {
     const getData = async () => {
       // console.log("Testing");
       try {
+        setLoading(true);
         api
           .getBIdData(custId)
           .then((res) => {
@@ -260,7 +261,6 @@ export default function BidData() {
           .catch((error) => {
             console.log(error);
           });
-        // setLoading(true);
       } catch (err) {
         console.log(err);
       }
